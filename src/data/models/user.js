@@ -25,3 +25,5 @@ const userSchema = mdb.Schema({
         default: "user"
     }
 });
+
+module.exports = mdb.model("user", userSchema);
