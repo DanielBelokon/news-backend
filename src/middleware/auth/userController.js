@@ -13,10 +13,12 @@ function register(req, res, next) {
         req.body.email
     );
 
-    // Check if user was successfully added and redirect to login page (not logged in yet),
+    // Check if user was successfully added and return success
     // if not return error
     if (user != null) {
-        res.redirect("/login");
+        res.json({
+            success: true
+        });
     }
     else {
         next(new Error("Something went wrong, try again later."));
@@ -26,8 +28,8 @@ function register(req, res, next) {
 function login(req, res, next) {
     // Login through passport strategy, which uses authContext to authenticate
     passport.authenticate("local", {})(req, res, next){
-        // If successfuly authenticated redirect to home page
-        res.redirect("/");
+        // If successfuly authenticated - todo: check what needs to be returned on passport.authenticate success
+        return next();
     }
 
     });
