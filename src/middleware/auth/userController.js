@@ -1,9 +1,7 @@
 
 function isAuthenticated(req, res, next)
 {
-    console.log("Authenticating...");
-    res.send("Failed you fuck");
-    console.log("Authenticated.");
+    next(new Error("Not Implemented"));
 }
 
 exports.isAuthenticated = isAuthenticated;
