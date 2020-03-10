@@ -13,15 +13,15 @@ return res.send('Received a POST HTTP method');
 });
 
 //
-router.get('/:id', IsAuthenticated, (req, res) => {
+router.get('/:id', IsAuthenticated(), (req, res) => {
     return res.send('Received a GET HTTP method ' + req.params.id);
   });
 
-router.put('/:id', IsAuthenticated, (req, res) => {
+router.put('/:id', IsAuthenticated(), (req, res) => {
 return res.send('Received a PUT HTTP method');
 });
 
-router.delete('/:id', IsAuthenticated, (req, res) => {
+router.delete('/:id', IsAuthenticated(), (req, res) => {
 return res.send('Received a DELETE HTTP method');
 });
 

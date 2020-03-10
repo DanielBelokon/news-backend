@@ -12,18 +12,18 @@ router.get('/:id', articleMiddleware.get);
 
 // GET /ARTICLE
 // READ all the articles in the DB
-router.get('/', isAuthenticated, articleMiddleware.getAll);
+router.get('/', isAuthenticated(), articleMiddleware.getAll);
 
 // POST /ARTICLE
 // CREATE a single article
-router.post('/', isAuthenticated, articleMiddleware.create);
+router.post('/', isAuthenticated(), articleMiddleware.create);
 
 // PUT /ARTICLE/ID
 // UPDATE a specific article from DB
-router.put('/:id', isAuthenticated, articleMiddleware.update);
+router.put('/:id', isAuthenticated(), articleMiddleware.update);
 
 // DELETE /ARTICLE/ID
 // DELETE a specific article from DB
-router.delete('/:id', isAuthenticated, articleMiddleware.deleteArticle);
+router.delete('/:id', isAuthenticated(), articleMiddleware.deleteArticle);
 
 module.exports = router;
