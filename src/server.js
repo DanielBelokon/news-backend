@@ -4,14 +4,17 @@ const express = require("express");
 const articleRouter = require("./routes/article");
 const authRouter = require("./routes/auth");
 
+const services = require("./middleware");
+
 // check if in Production, if not - load dotenv
 if (process.env.NODE_ENV !== "Production") {
     console.log("Dev env, loading dotenv");
     require('dotenv').config();
 }
 
-const app = express();
+services.configServices(process.env.DB_CONNECTION);
 
+const app = express();
 // Set up routes - pipeline start
 app.use("/article", articleRouter);
 app.use("/auth", authRouter);
