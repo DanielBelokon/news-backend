@@ -9,4 +9,4 @@ userController.
     Update
     Get
 ///*/
-exports.userController = require("./userController");
+exports.userController = require("./userService");

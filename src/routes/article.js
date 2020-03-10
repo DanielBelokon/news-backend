@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 // Import article middleware index //NOT IMPLEMENTED
-const articleMiddleware = require("../middleware/article/articleController");
+const articleMiddleware = require("../middleware/article/articleService");
 //Authorization module to check if user logged in //NOT IMPLEMENTED
 const isAuthenticated = require("../middleware/auth").userController.isAuthenticated; 
 // Article CRUD

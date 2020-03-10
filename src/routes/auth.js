@@ -1,5 +1,5 @@
 const Router = require("express");
-const IsAuthenticated = require("../middleware/auth/userController").isAuthenticated;
+const IsAuthenticated = require("../middleware/auth/userService").isAuthenticated;
 const router = Router.Router();
 
 // User login page

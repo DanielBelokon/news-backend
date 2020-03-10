@@ -1,1 +1,1 @@
-exports = require("./articleController");
+exports = require("./articleService");
