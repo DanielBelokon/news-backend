@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.JWT_SECRET || "pleasedontuseme";
 
 function generateToken(user) {
+    // Map the data to the correct format 
+    // (Should already be mapped like this, but we want to prevent unwated data passing in the jwt)
     const data = {
         _id: user._id,
         name: user.username,
@@ -10,7 +12,7 @@ function generateToken(user) {
         role: user.role
     };
     const expiration = '30d';
-    return jwt.sign(data, signature, { expiresIn: expiration });
+    return jwt.sign(data, secret, { expiresIn: expiration });
 }
 
 function verifyToken(token) {
