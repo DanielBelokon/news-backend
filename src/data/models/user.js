@@ -14,8 +14,8 @@ const userSchema = mdb.Schema({
         type: Date,
         default: Date.now
     },
-    lastLogin {
-        type: Date,
+    lastLogin: {
+        type: Date
     },
     email: {
         type: String
