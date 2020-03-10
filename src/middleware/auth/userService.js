@@ -89,3 +89,4 @@ function setUserRole(user) {
 
 exports.isAuthenticated = isAuthenticated;
 exports.register = register;
+exports.login = login;
