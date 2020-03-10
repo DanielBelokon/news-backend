@@ -15,6 +15,7 @@ if (process.env.NODE_ENV !== "Production") {
 services.configServices(process.env.DB_CONNECTION);
 
 const app = express();
+app.use(express.json());
 // Set up routes - pipeline start
 app.use("/article", articleRouter);
 app.use("/auth", authRouter);
