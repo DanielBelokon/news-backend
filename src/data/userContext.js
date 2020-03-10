@@ -2,8 +2,15 @@
 const bcrypt = require("bcrypt");
 const userModel = require("./models/user");
 
-function getUserByUsername(username) {
-    throw new Error("Not implemented.");
+async function getUserByUsername(username, successCallback, errCallback) {
+    return userModel.findOne({ username: username }, function (err, obj) {
+        if (err == null) {
+            successCallback(obj);
+        }
+        else {
+            errCallback(err);
+        }
+    });
 }
 
 function getUserById(id) {
