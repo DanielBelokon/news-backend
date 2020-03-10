@@ -1,6 +1,6 @@
 // TODO: Register: hashing using bcrypt and storing
 const bcrypt = require("bcrypt");
-const user = require("./models/user")
+const userModel = require("./models/user");
 
 function getUserByUsername(username) {
     throw new Error("Not implemented.");
@@ -14,11 +14,23 @@ function getUserByEmail(email) {
     throw new Error("Not implemented.");
 }
 
-function registerUser(username, password, email) {
-
-    throw new Error("Not implemented.");
-    // Storing in DB, hashing password with bcrypt
-
+function registerUser(username, password, email, handleError) {
+    console.log("Data registering new user...")
+    var user = new userModel({
+        username: username,
+        password: password, //Todo: HASH!
+        email: email
+    });
+    user.save(function (err, user) {
+        if (err) {
+            console.log("There was an error in the data layer... " + err.message)
+            handleError(err)
+        } else {
+            console.log("The user was registered in the data layer " + user)
+            return user;
+        }
+    });
+    return user;
 }
 
 // User Authentication Check:
