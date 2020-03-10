@@ -1,10 +1,24 @@
 // TODO: Register: hashing using bcrypt and storing
 const bcrypt = require("bcrypt");
+const user = require("./models/user")
+
+function getUserByUsername(username) {
+    throw new Error("Not implemented.");
+}
+
+function getUserById(id) {
+    throw new Error("Not implemented.");
+}
+
+function getUserByEmail(email) {
+    throw new Error("Not implemented.");
+}
 
 function registerUser(username, password, email) {
 
     throw new Error("Not implemented.");
     // Storing in DB, hashing password with bcrypt
+
 }
 
 // User Authentication Check:
@@ -30,3 +44,6 @@ function authenticateUser(username, password, done) {
     // If you're all the way down here, something went really wrong.
     return done(new Error("Something went wrong"));
 }
+
+exports.authenticateUser = authenticateUser;
+exports.registerUser = registerUser;
