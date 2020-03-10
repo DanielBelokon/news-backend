@@ -30,10 +30,8 @@ function registerUser(username, password, email, handleError) {
     });
     user.save(function (err, user) {
         if (err) {
-            console.log("There was an error in the data layer... " + err.message)
             handleError(err)
         } else {
-            console.log("The user was registered in the data layer " + user)
             return user;
         }
     });
