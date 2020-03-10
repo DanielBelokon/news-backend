@@ -65,19 +65,22 @@ async function register(req, res, next) {
 async function login(req, res, next) {
     // Authenticate user using userContext (compare passwords)
     // If successful use callback to generate & send a jw token with the needed creds
-    await userContext.authenticateUser(req.body.username, req.body.password, function (err, user, message) {
+    await userContext.authenticateUser(req.body.username, req.body.password, function (err, user, options) {
         if (err == null) {
+            if (!user){
+                return next(new Error(options.message));
+            }
             const token = tokenUtils.generateToken({
                 _id: user._id,
                 username: user.username,
                 email: user.email,
                 role: user.role
             });
+            return res.json(token);
         } else {
             return next(err);
         }
     });
-    return next(new Error("Something went wrong"));
 }
 
 function setUserRole(user) {
