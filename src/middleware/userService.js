@@ -1,4 +1,4 @@
-const userContext = require("../../data/userContext");
+const userContext = require("../data/userContext");
 const tokenUtils = require("./tokenUtils");
 
 function isAuthenticated(role) {
@@ -87,6 +87,9 @@ function setUserRole(user) {
 
 }
 
-exports.isAuthenticated = isAuthenticated;
-exports.register = register;
-exports.login = login;
+module.exports = {
+    isAuthenticated: isAuthenticated,
+    register: register,
+    login: login,
+    setUserRole: setUserRole
+}

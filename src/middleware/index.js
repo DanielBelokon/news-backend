@@ -4,4 +4,8 @@ function configServices(dbUrl) {
     connectDb(dbUrl);
 }
 
-exports.configServices = configServices;
+module.exports = {
+    configServices: configServices,
+    userService: require("./userService"),
+    articleService: require("./articleService")
+}

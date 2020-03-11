@@ -24,8 +24,10 @@ function get(req, res, next)
     next(new Error("Not Implemented"));
 }
 
-exports.getAll = getAll;
-exports.create = create;
-exports.update = update;
-exports.deleteArticle = deleteArticle;
-exports.get = get;
+module.exports = {
+    getAll: getAll,
+    create: create,
+    update: update,
+    deleteArticle: deleteArticle,
+    get: get
+}
