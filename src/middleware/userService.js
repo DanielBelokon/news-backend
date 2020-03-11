@@ -20,14 +20,14 @@ function isAuthenticated(role) {
         else {
             // If no role was entered - simple log-in check
             // If there was a role, compare to user's role
-            if (role == null) {
-                next();
+            if (typeof role == 'undefined') {
+                return next();
             } else {
                 if (tokenContent.role === role) {
-                    next();
+                    return next();
                 }
                 else {
-                    next(new Error("User not in role " + role))
+                    return next(new Error("User not in role " + role))
                 }
             }
         }
