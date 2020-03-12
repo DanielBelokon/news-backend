@@ -36,6 +36,8 @@ function getToken(req) {
     }
 }
 
-exports.getToken = getToken;
-exports.verifyToken = verifyToken;
-exports.generateToken = generateToken;
+module.exports = {
+    generateToken: generateToken,
+    getToken: getToken,
+    verifyToken: verifyToken
+}
