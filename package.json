@@ -21,7 +21,7 @@
     "sinon": "^9.0.1"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --recursive",
     "start": "nodemon --exec node src/server.js"
   },
   "author": "",
