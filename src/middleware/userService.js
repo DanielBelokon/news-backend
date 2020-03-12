@@ -45,7 +45,7 @@ async function register(req, res, next) {
         req.body.email,
         function (err) {
             if (err){
-                next(err);
+                return next(err);
             }
         }
     );
@@ -53,12 +53,12 @@ async function register(req, res, next) {
     // if not return error
     if (user != null) {
         console.log("middleware reports user registered.");
-        res.json({
+        return res.json({
             success: true
         });
     }
     else {
-        next(new Error("Something went wrong, try again later."));
+        return next(new Error("Something went wrong, try again later."));
     }
 }
 
