@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const secret = process.env.JWT_SECRET || "pleasedontuseme";
+const secret = process.env.AUTH_SECRET || "please2dontuseme";
 
 function generateToken(user) {
     // Map the data to the correct format 
