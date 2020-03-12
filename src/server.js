@@ -22,7 +22,7 @@ app.use("/article", articleRouter);
 app.use("/auth", authRouter);
 
 // If we've reached this far without an error or response, the resource was not found.
-app.use((req, res, next) => {
+app.use('*', (req, res, next) => {
     const err = new Error("Not Found");
     err.status = 404;
 
