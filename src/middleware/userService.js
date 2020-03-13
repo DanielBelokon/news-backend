@@ -38,13 +38,15 @@ function isAuthenticated(role) {
 
 async function register(req, res, next) {
     // Use data layer to register a new user with passed credentials
-    console.log("middleware registering new user..." + req.body.username)
+    if (typeof req.body == 'undefined') {
+        return next(new Error("No user data provided"));
+    }
     const user = await userContext.registerUser(
         req.body.username,
         req.body.password,
         req.body.email,
         function (err) {
-            if (err){
+            if (err) {
                 return next(err);
             }
         }
@@ -52,7 +54,6 @@ async function register(req, res, next) {
     // Check if user was successfully added and return success
     // if not return error
     if (user != null) {
-        console.log("middleware reports user registered.");
         return res.json({
             success: true
         });
@@ -67,7 +68,7 @@ async function login(req, res, next) {
     // If successful use callback to generate & send a jw token with the needed creds
     await userContext.authenticateUser(req.body.username, req.body.password, function (err, user, options) {
         if (err == null) {
-            if (!user){
+            if (!user) {
                 return next(new Error(options.message));
             }
             const token = tokenUtils.generateToken({
