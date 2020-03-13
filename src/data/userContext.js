@@ -67,5 +67,7 @@ async function authenticateUser(username, password, done) {
     return done(new Error("Something went wrong"));
 }
 
-exports.authenticateUser = authenticateUser;
-exports.registerUser = registerUser;
+module.exports = {
+    authenticateUser: authenticateUser,
+    registerUser: registerUser
+}
