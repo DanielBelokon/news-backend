@@ -2,33 +2,26 @@
 const bcrypt = require("bcrypt");
 const userModel = require("./models/user");
 
-async function getUserByUsername(username, successCallback, errCallback) {
-    return userModel.findOne({ username: username }, function (err, obj) {
-        if (err == null) {
-            successCallback(obj);
-        }
-        else {
-            errCallback(err);
-        }
-    });
+async function getUserByUsername(username) {
+    return userModel.findOne({ username: username }).exec();
+};
+
+async function getUserById(id) {
+    return userModel.findById(id).exec();
 }
 
-function getUserById(id) {
-    throw new Error("Not implemented.");
+async function getUserByEmail(email) {
+    return userModel.findOne({ email: email }).exec();
 }
 
-function getUserByEmail(email) {
-    throw new Error("Not implemented.");
-}
-
-function registerUser(username, password, email, handleError) {
+async function registerUser(username, password, email, handleError) {
     console.log("Data registering new user...")
     var user = new userModel({
         username: username,
-        password: bcrypt.hashSync(password, 10),
+        password: await bcrypt.hash(password, 10),
         email: email
     });
-    user.save(function (err, user) {
+    await user.save(function (err, user) {
         if (err) {
             handleError(err)
         } else {
@@ -42,13 +35,9 @@ function registerUser(username, password, email, handleError) {
 // Method for the middle tier to authenticate a user with the data tier - using bcrypt compare & save to express session with passport on success
 // takes username, password, and passport's 'done' method which itself takes (error, user, message)
 async function authenticateUser(username, password, done) {
-    var user = null;
-    await getUserByUsername(username, function (resultUser) {
-        user = resultUser;
-    });
-
+    var user = await getUserByUsername(username);
     if (user == null) {
-        // if user not found - use passport's 'done' function to return message
+        console.log(user)
         return done(null, false, { message: "User not found" })
     }
     try {
