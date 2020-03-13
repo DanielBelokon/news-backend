@@ -85,7 +85,7 @@ async function login(req, res, next) {
 }
 
 function setUserRole(user) {
-
+    return new Error("Not Impelemented")
 }
 
 module.exports = {
