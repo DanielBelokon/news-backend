@@ -1,10 +1,9 @@
-const mocha = require("mocha");
 const { assert } = require("chai");
 const sinon = require("sinon");
 const { userService, tokenUtils } = require("../../src/middleware");
 const { userContext } = require("../../src/data");
 
-
+const normalUser = { username: "username", _id: "id", email: "email", role: "role" };
 // isAuthenticated
 describe("userService.isAuthenticated", function () {
     var stub_verifyToken = sinon.stub(tokenUtils, "verifyToken").callsFake(function fake_verifyToken(token) {
@@ -127,7 +126,7 @@ describe("userService.login", function () {
         spy_next = sinon.spy();
         res.json = sinon.spy();
         stub_generateToken.returns("somekindof.tokenwithcontent.andasignature");
-        stub_authenticateUser.callsArgWithAsync(2, null, false, { message: "User not found" });
+        stub_authenticateUser.rejects(new Error("User not found"));
     });
 
     it("Doesn't find a user", async function () {
@@ -135,20 +134,12 @@ describe("userService.login", function () {
         assert(spy_next.calledWithExactly(sinon.match.instanceOf(Error)));
     });
     it("Finds a user and returns a token", async function () {
-        stub_authenticateUser.callsArgWithAsync(2,
-            null,
-            { username: "some kind of user" },
-            null
-        );
+        stub_authenticateUser.resolves(normalUser);
         await userService.login(req, res, spy_next);
         assert(res.json.calledWithExactly("somekindof.tokenwithcontent.andasignature"));
     });
     it("authenticateUser returns an error", async function () {
-        stub_authenticateUser.callsArgWithAsync(2,
-            new Error("Something wong"),
-            false,
-            { message: "something" }
-        );
+        stub_authenticateUser.rejects(new Error("Incorrect password"));
         await userService.login(req, res, spy_next);
         assert(spy_next.calledWithExactly(sinon.match.instanceOf(Error)));
     });

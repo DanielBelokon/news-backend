@@ -1,4 +1,3 @@
-// TODO: Register: hashing using bcrypt and storing
 const bcrypt = require("bcrypt");
 const userModel = require("./models/user");
 
@@ -34,10 +33,24 @@ async function registerUser(username, password, email, handleError) {
 // User Authentication Check:
 // Method for the middle tier to authenticate a user with the data tier - using bcrypt compare & save to express session with passport on success
 // takes username, password, and passport's 'done' method which itself takes (error, user, message)
-async function authenticateUser(username, password, done) {
+async function authenticateUser(username, password) {
     var user = await getUserByUsername(username);
-    if (user == null) {
-        console.log(user)
+    return new Promise(async (resolve, reject) => {
+        if (user == null) {
+            reject(new Error("User not found"));
+        } else {
+            try {
+                if (await bcrypt.compare(password, user.password)) {
+                    resolve(user);
+                } else {
+                    reject(new Error("Incorrect password"));
+                }
+            } catch (err){
+                reject(err);
+            }
+        }
+    });
+    /*if (user == null) {
         return done(null, false, { message: "User not found" })
     }
     try {
@@ -53,7 +66,7 @@ async function authenticateUser(username, password, done) {
         return done(e);
     }
     // If you're all the way down here, something went really wrong.
-    return done(new Error("Something went wrong"));
+    return done(new Error("Something went wrong"));*/
 }
 
 module.exports = {
