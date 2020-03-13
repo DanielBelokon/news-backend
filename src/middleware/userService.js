@@ -41,25 +41,17 @@ async function register(req, res, next) {
     if (typeof req.body == 'undefined') {
         return next(new Error("No user data provided"));
     }
-    const user = await userContext.registerUser(
-        req.body.username,
-        req.body.password,
-        req.body.email,
-        function (err) {
-            if (err) {
-                return next(err);
-            }
-        }
-    );
-    // Check if user was successfully added and return success
-    // if not return error
-    if (user != null) {
+    try {
+        const user = await userContext.registerUser(
+            req.body.username,
+            req.body.password,
+            req.body.email);
+        console.log(user);
         return res.json({
             success: true
         });
-    }
-    else {
-        return next(new Error("Something went wrong, try again later."));
+    } catch (err) {
+        return next(err);
     }
 }
 

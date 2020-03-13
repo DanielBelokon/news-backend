@@ -13,21 +13,13 @@ async function getUserByEmail(email) {
     return userModel.findOne({ email: email }).exec();
 }
 
-async function registerUser(username, password, email, handleError) {
-    console.log("Data registering new user...")
+async function registerUser(username, password, email) {
     var user = new userModel({
         username: username,
         password: await bcrypt.hash(password, 10),
         email: email
     });
-    await user.save(function (err, user) {
-        if (err) {
-            handleError(err)
-        } else {
-            return user;
-        }
-    });
-    return user;
+    return user.save();
 }
 
 // User Authentication Check:

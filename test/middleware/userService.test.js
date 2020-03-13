@@ -83,7 +83,7 @@ describe("userService.register", function () {
     });
 
     it("Invalid user input (registerUser returns null)", async function () {
-        stub_registerUser.resolves(null);
+        stub_registerUser.rejects(new Error());
         await userService.register(req, res, spy_next);
         assert(spy_next.calledWithExactly(sinon.match.instanceOf(Error)),
             "Next didn't pass an Error");
