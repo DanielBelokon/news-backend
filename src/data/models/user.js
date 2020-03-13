@@ -4,11 +4,11 @@ const mdb = require("mongoose");
 const userSchema = mdb.Schema({
     username: {
         type: String,
-        require: true
+        required: true
     },
     password: {
         type: String,
-        require: true
+        required: true
     },
     joinDate: {
         type: Date,
