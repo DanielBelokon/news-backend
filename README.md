@@ -1,4 +1,5 @@
 # news-backend
+![Node.js](https://github.com/DanielBelokon/news-backend/workflows/Node.js%20CI/badge.svg)
 
 A simple backend server for a simple news website using Node.js with Express
 
