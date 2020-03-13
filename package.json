@@ -18,10 +18,12 @@
     "dotenv": "^8.2.0",
     "mocha": "^7.1.0",
     "nodemon": "^2.0.2",
+    "nyc": "^15.0.0",
     "sinon": "^9.0.1"
   },
   "scripts": {
     "test": "mocha --recursive",
+    "coverage": "nyc --reporter=text --temp-dir=./coverage mocha --recursive",
     "start": "nodemon --exec node src/server.js"
   },
   "author": "",
