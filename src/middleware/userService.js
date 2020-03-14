@@ -1,5 +1,5 @@
 const userContext = require("../data/userContext");
-const tokenUtils = require("./tokenUtils");
+const tokenUtils = require("../utils/tokenUtils");
 
 function isAuthenticated(role) {
     // return the middleware function called by Express

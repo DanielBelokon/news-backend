@@ -16,11 +16,12 @@ function generateToken(user) {
 }
 
 function verifyToken(token) {
-    try {
-        return jwt.verify(token, secret);
-    } catch (e) {
-        return null;
-    }
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, secret, (err, decoded) => {
+            if (err) return reject(err);
+            resolve(decoded);
+        });
+    });
 }
 
 // Extract token middleware (?)

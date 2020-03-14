@@ -1,6 +1,7 @@
 const { assert } = require("chai");
 const sinon = require("sinon");
-const { userService, tokenUtils } = require("../../src/middleware");
+const { userService } = require("../../src/middleware");
+const tokenUtils = require("../../src/utils/tokenUtils");
 const { userContext } = require("../../src/data");
 
 const normalUser = { username: "username", _id: "id", email: "email", role: "role" };

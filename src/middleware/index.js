@@ -7,6 +7,5 @@ function configServices(dbUrl) {
 module.exports = {
     configServices: configServices,
     userService: require("./userService"),
-    articleService: require("./articleService"),
-    tokenUtils: require("./tokenUtils")
+    articleService: require("./articleService")
 }
