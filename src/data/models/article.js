@@ -4,19 +4,19 @@ const mdb = require("mongoose");
 const articleSchema = mdb.Schema({
     title: {
         type: String,
-        require: true
+        required: true
     },
     body: {
         type: String,
-        require: true
+        required: true
     },
     authorPseudoNym: {
         type: String,
-        require: true
+        required: true
     },
     userId: {
         type: String,
-        require: true
+        required: true
     },
     topic: {
         type: String,
