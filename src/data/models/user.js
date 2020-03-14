@@ -4,7 +4,8 @@ const mdb = require("mongoose");
 const userSchema = mdb.Schema({
     username: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
@@ -18,7 +19,8 @@ const userSchema = mdb.Schema({
         type: Date
     },
     email: {
-        type: String
+        type: String,
+        unique: true
     },
     role: {
         type: String,
