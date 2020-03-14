@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const userModel = require("./models/user");
+const httpError = require("http-errors");
 
 async function getUserByUsername(username) {
     return userModel.findOne({ username: username }).exec();
@@ -29,36 +30,19 @@ async function authenticateUser(username, password) {
     var user = await getUserByUsername(username);
     return new Promise(async (resolve, reject) => {
         if (user == null) {
-            reject(new Error("User not found"));
+            reject(httpError.NotFound("No user by that name"));
         } else {
             try {
                 if (await bcrypt.compare(password, user.password)) {
                     resolve(user);
                 } else {
-                    reject(new Error("Incorrect password"));
+                    reject(httpError.Unauthorized("Password incorrect"));
                 }
             } catch (err){
                 reject(err);
             }
         }
     });
-    /*if (user == null) {
-        return done(null, false, { message: "User not found" })
-    }
-    try {
-        // Compare password(plain text) with user.password (encrypted & salted from the DB object)
-        if (await bcrypt.compare(password, user.password)) {
-            console.log(user.username + " logged in");
-            return done(null, user);
-        } else {
-            return done(null, false, { message: "Password incorrect" });
-        }
-    } catch (e) {
-        // Something went wrong with bcrypt compare, return the error.
-        return done(e);
-    }
-    // If you're all the way down here, something went really wrong.
-    return done(new Error("Something went wrong"));*/
 }
 
 module.exports = {

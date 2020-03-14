@@ -1,5 +1,6 @@
 const userContext = require("../data/userContext");
 const tokenUtils = require("../utils/tokenUtils");
+const httpError = require("http-errors");
 
 function isAuthenticated(role) {
     // return the middleware function called by Express
@@ -9,7 +10,7 @@ function isAuthenticated(role) {
         const token = tokenUtils.getToken(req);
         // Check if no token, will be true if correct header was not found as well
         if (token == null) {
-            return next(new Error("Token not found"));
+            return next(httpError.Unauthorized("Token not found"));
         }
         // Check for token secret match and verify content exists (success)
         // Afterwards check for role if was passed in parent function
@@ -39,7 +40,7 @@ function isAuthenticated(role) {
 async function register(req, res, next) {
     // Use data layer to register a new user with passed credentials
     if (typeof req.body == 'undefined') {
-        return next(new Error("No user data provided"));
+        return next(httpError.BadRequest("No request body"));
     }
     try {
         const user = await userContext.registerUser(
