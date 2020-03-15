@@ -13,8 +13,19 @@ async function getUserById(id) {
 async function getUserByEmail(email) {
     return userModel.findOne({ email: email }).exec();
 }
-
+/**
+ * Register a new user with the given username, password and email to the DB, 
+ * Encrypt the password using bcrypt.hash, saving using mongoose Model.save
+ * to be used async (with await)
+ * @param {string} username
+ * @param {string} password
+ * @param {string} email
+ * @returns Promise to resolve a User document, or reject with an error
+ */
 async function registerUser(username, password, email) {
+    if (!username || !password || !email) {
+        return Promise.reject(httpError.BadRequest("One of the parameters is missing"));
+    }
     var user = new userModel({
         username: username,
         password: await bcrypt.hash(password, 10),
@@ -22,10 +33,13 @@ async function registerUser(username, password, email) {
     });
     return user.save();
 }
-
-// User Authentication Check:
-// Method for the middle tier to authenticate a user with the data tier - using bcrypt compare & save to express session with passport on success
-// takes username, password, and passport's 'done' method which itself takes (error, user, message)
+/**
+ * Authenticates user with given params against the DB,
+ * Using bcrypt.compare & userContext.getUserByUsername
+ * @param {string} username the unique username
+ * @param {string} password the password associated with the user
+ * @returns A promise to resolve the User that was found, or a rejection with the error
+ */
 async function authenticateUser(username, password) {
     var user = await getUserByUsername(username);
     return new Promise(async (resolve, reject) => {
@@ -34,6 +48,8 @@ async function authenticateUser(username, password) {
         } else {
             try {
                 if (await bcrypt.compare(password, user.password)) {
+                    user.lastLogin = Date.now();
+                    await user.save();
                     resolve(user);
                 } else {
                     reject(httpError.Unauthorized("Password incorrect"));
