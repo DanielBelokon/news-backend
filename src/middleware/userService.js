@@ -5,7 +5,7 @@ const httpError = require("http-errors");
 function isAuthenticated(role) {
     // return the middleware function called by Express
     // (This is done to enter the role param in the 'parent' function)
-    return function (req, res, next) {
+    return async function (req, res, next) {
         // Extract token from the HTTP request
         const token = tokenUtils.getToken(req);
         // Check if no token, will be true if correct header was not found as well
@@ -14,26 +14,13 @@ function isAuthenticated(role) {
         }
         // Check for token secret match and verify content exists (success)
         // Afterwards check for role if was passed in parent function
-        const tokenContent = tokenUtils.verifyToken(token);
-        if (tokenContent == null) {
-            return next(new Error("Token verification failed"));
+        try {
+            const tokenContent = await tokenUtils.verifyToken(token);
+            if (typeof role == 'undefined' || tokenContent.role === role) { return next(); }
+            return next(httpError.Forbidden());
+        } catch (err) {
+            return next(httpError.Unauthorized(err.message))
         }
-        else {
-            // If no role was entered - simple log-in check
-            // If there was a role, compare to user's role
-            if (typeof role == 'undefined') {
-                return next();
-            } else {
-                if (tokenContent.role === role) {
-                    return next();
-                }
-                else {
-                    return next(new Error("User not in role " + role))
-                }
-            }
-        }
-
-        return next(new Error("Something went wrong"));
     }
 }
 
@@ -47,7 +34,7 @@ async function register(req, res, next) {
             req.body.username,
             req.body.password,
             req.body.email);
-        console.log(user);
+
         return res.json({
             success: true
         });
