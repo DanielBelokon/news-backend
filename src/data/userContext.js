@@ -31,7 +31,18 @@ async function registerUser(username, password, email) {
         password: await bcrypt.hash(password, 10),
         email: email
     });
-    return user.save();
+    try {
+        var createdUser = await user.save();
+        return Promise.resolve(createdUser);
+    } catch (err) {
+        var newErr;
+        console.error(err);
+        if (err.code == 11000) {
+            newErr = httpError.Conflict("Duplicate parameter - choose another");
+            newErr.details = err.keyValue;
+        } else newErr = httpError.InternalServerError("Something went wrong with the database, try again later.");
+        return Promise.reject(newErr);
+    }
 }
 /**
  * Authenticates user with given params against the DB,
@@ -54,7 +65,7 @@ async function authenticateUser(username, password) {
                 } else {
                     reject(httpError.Unauthorized("Password incorrect"));
                 }
-            } catch (err){
+            } catch (err) {
                 reject(err);
             }
         }
