@@ -31,9 +31,11 @@ app.use('*', (req, res, next) => {
 // If we've reaced this far without an error or response - something went terribly wrong.
 app.use((err, req, res, next) => {
     // Set an auth challenge if we recieve a 401
+    console.error(err);
     if (err.status === 401) res.setHeader('WWW-Authenticate', 'Bearer realm="news"');
     res.status(err.status || 500).json({
-        err: err.message || "Something's wrong"
+        err: err.message || "Something's wrong",
+        details: err.details || {}
     });
 });
 
