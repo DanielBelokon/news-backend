@@ -19,8 +19,7 @@ const userSchema = mdb.Schema({
         type: Date
     },
     email: {
-        type: String,
-        unique: true
+        type: String
     },
     role: {
         type: String,
