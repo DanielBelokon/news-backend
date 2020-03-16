@@ -26,6 +26,10 @@ const articleSchema = mdb.Schema({
         type: Date,
         default: Date.now
     },
+    featured: {
+        type: Boolean,
+        default: false
+    }
 });
 
 module.exports = mdb.model("article", articleSchema);
