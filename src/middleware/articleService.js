@@ -16,7 +16,8 @@ async function create(req, res, next) {
         body: req.body.body,
         authorPseudonym: req.body.authorPseudonym,
         userId: req.user._id,
-        topic: req.body.topic
+        topic: req.body.topic,
+        featured: req.body.featured
     }
     try {
         var createdArticle = await articleContext.create(article);
@@ -26,8 +27,30 @@ async function create(req, res, next) {
     }
 }
 
-function update(req, res, next) {
-    articleContext.update();
+async function update(req, res, next) {
+    var body = req.body;
+    var articleUpdates = {
+        _id: req.params.id
+    };
+
+    /* TODO: Refactor this fucking mess somehow
+    * (If copied without check, update() will try to overide any missing fields with undefined and fail)
+    * need to look into creating an array of 'user inputable' fields to iterate over it 
+    * both here and in other funcs in articleService
+    */
+    if (typeof body.body != 'undefined') articleUpdates.body = body.body;
+    if (typeof body.title != 'undefined') articleUpdates.title = body.title;
+    if (typeof body.authorPseudonym != 'undefined') articleUpdates.authorPseudonym = body.authorPseudonym;
+    if (typeof body.topic != 'undefined') articleUpdates.topic = body.topic;
+    if (typeof body.featured != 'undefined') articleUpdates.featured = body.featured;
+
+    console.log(articleUpdates);
+    try {
+        article = await articleContext.update(articleUpdates);
+        return res.json(article);
+    } catch (err) {
+        return next(err);
+    }
 }
 
 function deleteArticle(req, res, next) {
