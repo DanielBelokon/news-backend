@@ -1,27 +1,46 @@
+const { articleContext } = require("../data");
 
-function getAll(req, res, next)
-{
-    next(new Error("Not Implemented"));
+
+async function getAll(req, res, next) {
+    try {
+        var articles = await articleContext.getAll();
+        return res.json(articles);
+    } catch (err) {
+        return next(err);
+    }
 }
 
-function create(req, res, next)
-{
-    next(new Error("Not Implemented"));
+async function create(req, res, next) {
+    var article = {
+        title: req.body.title,
+        body: req.body.body,
+        authorPseudonym: req.body.authorPseudonym,
+        userId: req.user._id,
+        topic: req.body.topic
+    }
+    try {
+        var createdArticle = await articleContext.create(article);
+        return res.json(createdArticle);
+    } catch (err) {
+        return next(err);
+    }
 }
 
-function update(req, res, next)
-{
-    next(new Error("Not Implemented"));
+function update(req, res, next) {
+    articleContext.update();
 }
 
-function deleteArticle(req, res, next)
-{
-    next(new Error("Not Implemented"));
+function deleteArticle(req, res, next) {
+    articleContext.deleteArticle();
 }
 
-function get(req, res, next)
-{
-    next(new Error("Not Implemented"));
+async function get(req, res, next) {
+    try {
+        var article = await articleContext.getById(req.params.id);
+        return res.json(article);
+    } catch (err) {
+        return next(err);
+    }
 }
 
 module.exports = {
