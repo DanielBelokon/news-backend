@@ -7,13 +7,7 @@ const { userContext } = require("../../src/data");
 const normalUser = { username: "username", _id: "id", email: "email", role: "role" };
 // isAuthenticated
 describe("userService.isAuthenticated", function () {
-    var stub_verifyToken = sinon.stub(tokenUtils, "verifyToken").callsFake(function fake_verifyToken(token) {
-        if (token === "faketoken") {
-            return { role: "fakerole" };
-        } else {
-            return null;
-        }
-    });
+    var stub_verifyToken = sinon.stub(tokenUtils, "verifyToken");
     var stub_getToken = sinon.stub(tokenUtils, "getToken");
     var spy_next = sinon.spy();
     var req = sinon.fake();
@@ -26,40 +20,39 @@ describe("userService.isAuthenticated", function () {
         beforeEach(function () {
             stub_getToken.returns("faketoken");
         });
-        it("Valid token format", function (done) {
-            userService.isAuthenticated()(req, res, spy_next);
+        it("Valid token format", async function () {
+            stub_verifyToken.resolves({ username: "sometokencontent" });
+            await userService.isAuthenticated()(req, res, spy_next);
             assert(spy_next.calledWithExactly(),
                 "Next called with argument");
-            done();
         });
-        it("Passed a role, they match", function (done) {
-            userService.isAuthenticated("fakerole")(req, res, spy_next);
+        it("Passed a role, they match", async function () {
+            stub_verifyToken.resolves({ username: "sometokencontent", role: "fakerole" });
+            await userService.isAuthenticated("fakerole")(req, res, spy_next);
             assert(spy_next.calledWithExactly(),
                 "Next called with argument");
-            done();
         });
     });
-    describe("Bad Inputs", function () {
-        it("getToken didn't find the token", function (done) {
+    describe("Bad Inputs", async function () {
+        it("getToken didn't find the token", async function () {
             stub_getToken.returns(null);
-            userService.isAuthenticated()(req, res, spy_next);
+            await userService.isAuthenticated()(req, res, spy_next);
             assert(spy_next.calledWithExactly(sinon.match.instanceOf(Error)),
                 "Called next middleware in the pipeline");
-            done();
         });
-        it("verifyToken could not verify the token", function (done) {
+        it("verifyToken could not verify the token", async function () {
             stub_getToken.returns("reallyfaketoken");
-            userService.isAuthenticated()(req, res, spy_next);
+            stub_verifyToken.rejects(new Error("Something happened"));
+            await userService.isAuthenticated()(req, res, spy_next);
             assert(spy_next.calledWithExactly(sinon.match.instanceOf(Error)),
                 "Called next middleware in the pipeline");
-            done();
         });
-        it("Passed a role, and they don't match", function (done) {
+        it("Passed a role, and they don't match", async function () {
+            stub_verifyToken.resolves({ username: "name", role: "notwhatyouhave" });
             stub_getToken.returns("faketoken");
-            userService.isAuthenticated("somerole")(req, res, spy_next);
+            await userService.isAuthenticated("somerole")(req, res, spy_next);
             assert(spy_next.calledWithExactly(sinon.match.instanceOf(Error)),
                 "Called next middleware in the pipeline");
-            done();
         });
 
     });
