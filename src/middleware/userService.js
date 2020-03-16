@@ -16,7 +16,10 @@ function isAuthenticated(role) {
         // Afterwards check for role if was passed in parent function
         try {
             const tokenContent = await tokenUtils.verifyToken(token);
-            if (typeof role == 'undefined' || tokenContent.role === role) { return next(); }
+            if (typeof role == 'undefined' || tokenContent.role === role) {
+                req.user = tokenContent;
+                return next();
+            }
             return next(httpError.Forbidden());
         } catch (err) {
             return next(httpError.Unauthorized(err.message))
