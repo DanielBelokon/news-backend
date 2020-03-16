@@ -2,8 +2,8 @@ const express = require("express");
 const httpError = require("http-errors");
 
 // Load routers 
-const articleRouter = require("./routes/article");
-const authRouter = require("./routes/auth");
+const articleRouter = require("./routes/articleRouter");
+const authRouter = require("./routes/authRouter");
 
 const services = require("./middleware");
 
