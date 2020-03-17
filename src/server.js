@@ -1,6 +1,8 @@
 const express = require("express");
 const httpError = require("http-errors");
 
+const cors = require("cors");
+
 // Load routers 
 const articleRouter = require("./routes/articleRouter");
 const authRouter = require("./routes/authRouter");
@@ -16,6 +18,8 @@ if (process.env.NODE_ENV !== "Production") {
 services.configServices(process.env.DB_CONNECTION);
 
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 
 app.disable('x-powered-by');
