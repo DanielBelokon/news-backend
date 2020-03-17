@@ -1,9 +1,15 @@
 const { articleContext } = require("../data");
+const httpError = require("http-errors");
 
 
 async function getAll(req, res, next) {
     try {
-        var articles = await articleContext.getAll();
+        var page = req.params.page, count = req.params.count;
+
+        var articles = await articleContext.getAll(
+            isNaN(page) ? null : parseInt(page),  // If number pass value, if not pass null
+            isNaN(count) ? null : parseInt(count) // (So default value is assigned in context) 
+        );
         return res.json(articles);
     } catch (err) {
         return next(err);
@@ -53,9 +59,17 @@ async function update(req, res, next) {
     }
 }
 
-function deleteArticle(req, res, next) {
-    articleContext.deleteArticle();
+async function deleteArticle(req, res, next) {
+    var id = req.params.id;
+    try {
+        var article = await articleContext.deleteArticle(id);
+        console.log(article);
+        return res.json({success: `Deleted article titled "${article.title}", by author ${article.authorPseudonym}`});
+    } catch (err) {
+        next(err);
+    }
 }
+
 
 async function get(req, res, next) {
     try {

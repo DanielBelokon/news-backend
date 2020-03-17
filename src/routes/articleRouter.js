@@ -9,11 +9,11 @@ const isAuthenticated = middleware.userService.isAuthenticated;
 
 // GET /ARTICLE/ID
 // READ a specific article from the DB
-router.get('/:id', articleMiddleware.get);
+router.get('/id=:id', articleMiddleware.get);
 
 // GET /ARTICLE
 // READ all the articles in the DB
-router.get('/', isAuthenticated(), articleMiddleware.getAll);
+router.get('/:page.:count?', articleMiddleware.getAll);
 
 // POST /ARTICLE
 // CREATE a single article

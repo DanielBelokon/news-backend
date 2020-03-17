@@ -1,13 +1,13 @@
 const articleModel = require("./models/article");
 const httpError = require("http-errors");
 
-const DEFAULT_ART_COUNT = 10;
+const DEFAULT_ART_COUNT = 15;
 
 function getById(id) {
     return articleModel.findById(id).lean().exec();
 }
 
-function getByTopic(topic, count, page) {
+function getByTopic(topic, page, count) {
     count = count || DEFAULT_ART_COUNT;
     page = page || 0;
 
@@ -19,7 +19,7 @@ function getByTopic(topic, count, page) {
         .exec();
 }
 
-function getAll(id, count, page) {
+function getAll(page, count) {
     count = count || DEFAULT_ART_COUNT;
     page = page || 0;
 
@@ -73,12 +73,23 @@ async function update(articleUpdates) {
     }
 }
 
+async function deleteArticle(articleId) {
+    try {
+        var article = await articleModel.findByIdAndDelete(articleId);
+        if (!article) return Promise.reject(httpError.NotFound());
+        else return article;
+    } catch (err) {
+        return Promise.reject(err)
+    }
+}
+
 module.exports = {
     create: create,
     getById: getById,
     getAll: getAll,
     getByTopic: getByTopic,
     getByAuthor: getByAuthor,
-    update: update
+    update: update,
+    deleteArticle: deleteArticle
 }
 
