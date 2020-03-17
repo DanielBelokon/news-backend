@@ -10,6 +10,9 @@ const articleSchema = mdb.Schema({
         type: String,
         required: true
     },
+    summary: {
+        type: String
+    },
     authorPseudonym: {
         type: String,
         required: true
