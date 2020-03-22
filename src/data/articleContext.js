@@ -43,9 +43,11 @@ async function create(article) {
     var newArticle = articleModel({
         title: article.title,
         body: article.body,
+        summary: article.summary,
         authorPseudonym: article.authorPseudonym,
         userId: article.userId,
         topic: article.topic || "News",
+        imageUrl: article.imageUrl,
         featured: article.featured
     });
     try {

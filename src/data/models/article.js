@@ -32,6 +32,9 @@ const articleSchema = mdb.Schema({
     featured: {
         type: Boolean,
         default: false
+    },
+    imageUrl: {
+        type: String
     }
 });
 

@@ -20,9 +20,11 @@ async function create(req, res, next) {
     var article = {
         title: req.body.title,
         body: req.body.body,
+        summary: req.body.summary,
         authorPseudonym: req.body.authorPseudonym,
         userId: req.user._id,
         topic: req.body.topic,
+        imageUrl: req.body.imageUrl,
         featured: req.body.featured
     }
     try {
@@ -64,7 +66,7 @@ async function deleteArticle(req, res, next) {
     try {
         var article = await articleContext.deleteArticle(id);
         console.log(article);
-        return res.json({success: `Deleted article titled "${article.title}", by author ${article.authorPseudonym}`});
+        return res.json({ success: `Deleted article titled "${article.title}", by author ${article.authorPseudonym}` });
     } catch (err) {
         next(err);
     }
