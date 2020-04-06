@@ -23,7 +23,7 @@
   "scripts": {
     "test": "mocha --recursive",
     "coverage": "nyc --reporter=text --temp-dir=./coverage mocha --recursive",
-    "start": "nodemon --exec node src/server.js"
+    "start": "node src/server.js"
   },
   "author": "",
   "license": "ISC"
