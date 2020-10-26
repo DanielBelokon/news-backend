@@ -3,7 +3,7 @@
 
 A simple backend server for a simple news website using Node.js with Express
 
-### Structure
+## Structure
 
 :file_folder: [**data**](src/data) - _The Data Access Layer, using [mongoose](https://github.com/Automattic/mongoose) for modeling and accessing mongoDB_
 
@@ -17,61 +17,62 @@ A simple backend server for a simple news website using Node.js with Express
 
 
 
-### API GUIDE:
-
-Get a specific article from the DB
+## API GUIDE:
+### :newspaper: Article calls (/article)
+- Get a specific article from the DB
 ```
 GET /ARTICLE/{id}
 ```
 
-Get all the articles in the DB
+- Get all the articles in the DB
 ```
 GET /ARTICLE/{page}.{count}
 ```
 
-Create a single article
+- Create a single article
 ```
 POST /ARTICLE
 ```
 
-Update a specific article from DB
+- Update a specific article from DB
 ```
 PUT /ARTICLE/{id}
 ```
 
-Delete a specific article from DB
+- Delete a specific article from DB
 ```
 DELETE /ARTICLE/{id}
 ```
 
+### :closed_lock_with_key: User Calls (/auth)
 
-User login post
+- User login post
 ```
 POST /AUTH/LOGIN
 Body: username, password
 ```
 
-authentication check
+- Authentication check
 ```
 POST /AUTH/PROTECTED
 ```
 
-Get info about a user from the database
+- Get info about a user from the database
 ```
 GET /AUTH/{userId}
 ```
 
-Update a user from the database
+- Update a user from the database
 ```
 PUT /AUTH/{userId}
 ```
 
-Delete a user from the database
+- Delete a user from the database
 ```
 DELETE /AUTH/{userId}
 ```
 
-Register new user
+- Register new user
 ```
 POST /AUTH/REGISTER
 Body: user, password, email
