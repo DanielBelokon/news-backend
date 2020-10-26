@@ -12,3 +12,67 @@ A simple backend server for a simple news website using Node.js with Express
 :file_folder: [**routes**](src/routes) - _Application Layer, using express and express routes to provide the actual API access points_
 
 :page_with_curl: [server.js](src/server.js) - _The main entry point, initializes express and sets up the first steps in the pipeline._
+
+
+
+
+
+### API GUIDE:
+
+Get a specific article from the DB
+```
+GET /ARTICLE/{id}
+```
+
+Get all the articles in the DB
+```
+GET /ARTICLE/{page}.{count}
+```
+
+Create a single article
+```
+POST /ARTICLE
+```
+
+Update a specific article from DB
+```
+PUT /ARTICLE/{id}
+```
+
+Delete a specific article from DB
+```
+DELETE /ARTICLE/{id}
+```
+
+
+User login post
+```
+POST /AUTH/LOGIN
+Body: username, password
+```
+
+authentication check
+```
+POST /AUTH/PROTECTED
+```
+
+Get info about a user from the database
+```
+GET /AUTH/{userId}
+```
+
+Update a user from the database
+```
+PUT /AUTH/{userId}
+```
+
+Delete a user from the database
+```
+DELETE /AUTH/{userId}
+```
+
+Register new user
+```
+POST /AUTH/REGISTER
+Body: user, password, email
+```
