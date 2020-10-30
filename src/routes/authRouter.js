@@ -39,6 +39,6 @@ router.delete('/:id', isAuthenticated(), (req, res) => {
 // Register new user
 // POST /AUTH/REGISTER
 // Body: user, password, email
-router.post("/register", register);
+router.post("/register", isAuthenticated(), register);
 
 module.exports = router;
